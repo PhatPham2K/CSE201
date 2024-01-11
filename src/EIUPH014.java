@@ -1,33 +1,32 @@
 import java.io.*;
 import java.util.*;
 
-class EIUONCE {
+class EIUPH014 {
     static InputReader reader;
-    static StringBuilder result = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         reader = new InputReader(System.in);
-        int t = reader.nextInt();
-        for (int i = 0; i < t; i++) {
+        while (true) {
             int n = reader.nextInt();
-            HashMap<Integer, Integer> map = new HashMap<>();
-            for (int j = 0; j < n; j++) {
-                int number = reader.nextInt();
-                map.put(number, map.getOrDefault(number, 0) + 1);
-
+            if (n == 0) {
+                break;
             }
-
-            List<Integer> list = new ArrayList<>(map.keySet());
-            Collections.sort(list, (p1, p2) -> p1 - p2);
-            for (Integer integer : list) {
-                if (map.get(integer) == 1) {
-                    result.append(integer + " ");
-                }
+            int[] array = new int[n];
+            for (int i = 0; i < n; i++) {
+                array[i] = reader.nextInt();
             }
-            result.append("\n");
         }
-        System.out.println(result);
 
+    }
+
+    static int countInterations(int n) {
+        int count = 0;
+        while (count < 1000) {
+            int[] newArray = new int[n];
+            for (int i = 0; i < n - 1; i++) {
+                newArray[i] = Math.abs(array[i] - array[i + 1]);
+            }
+        }
     }
 
     static class InputReader {
