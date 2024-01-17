@@ -1,51 +1,35 @@
 import java.io.*;
 import java.util.*;
 
-class EIUPH014 {
+class EIPAGES {
     static InputReader reader;
+    static StringBuffer sb = new StringBuffer();
 
     public static void main(String[] args) throws IOException {
         reader = new InputReader(System.in);
-        while (true) {
-            int n = reader.nextInt();
-            if (n == 0) {
-                break;
-            }
-            int[] numbers = new int[n];
-            for (int i = 0; i < n; i++) {
-                numbers[i] = reader.nextInt();
-            }
-            int count = 0;
-            while (count <= 1000) {
-                if (iteration(numbers)) {
-                    System.out.println(count);
+        int n = reader.nextInt();
+        List<Integer> pages = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            pages.add(reader.nextInt());
+        }
+        pages.sort((s1, s2) -> s1 - s2);
+        // 141 142 143 174 175 180
+        // 0 1 2 3 4 5
+        for (int i = 0; i < n; i++) {
+            int j = i + 1;
+            for (; j < n; j++) {
+                if (pages.get(j) - pages.get(i) != j - i) {
                     break;
-                } else {
-                    count++;
-                }
-                int firstIndex = numbers[0];
-                for (int i = 0; i < numbers.length - 1; i++) {
-                    int value = Math.abs(numbers[i + 1] - numbers[i]);
-                    numbers[i] = value;
-                }
-                int lastIndex = Math.abs(numbers[numbers.length - 1] - firstIndex);
-                numbers[numbers.length - 1] = lastIndex;
-                if (count > 1000) {
-                    System.out.println(-1);
                 }
             }
-        }
-    }
-
-    static boolean iteration(int[] numbers) {
-        int i = 0;
-        while (i < numbers.length - 1) {
-            if (numbers[i] != numbers[i + 1]) {
-                return false;
+            if (j - i <= 2) {
+                sb.append(pages.get(i)).append(" ");
+            } else {
+                sb.append(pages.get(i)).append("-").append(pages.get(j - 1)).append(" ");
+                i = j - 1;
             }
-            i++;
         }
-        return true;
+        System.out.println(sb);
     }
 
     static class InputReader {

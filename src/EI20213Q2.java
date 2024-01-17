@@ -1,51 +1,26 @@
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
-class EIUPH014 {
+public class EI20213Q2 {
     static InputReader reader;
+    static StringBuffer sb = new StringBuffer();
 
     public static void main(String[] args) throws IOException {
         reader = new InputReader(System.in);
-        while (true) {
-            int n = reader.nextInt();
-            if (n == 0) {
-                break;
-            }
-            int[] numbers = new int[n];
-            for (int i = 0; i < n; i++) {
-                numbers[i] = reader.nextInt();
-            }
-            int count = 0;
-            while (count <= 1000) {
-                if (iteration(numbers)) {
-                    System.out.println(count);
-                    break;
-                } else {
-                    count++;
-                }
-                int firstIndex = numbers[0];
-                for (int i = 0; i < numbers.length - 1; i++) {
-                    int value = Math.abs(numbers[i + 1] - numbers[i]);
-                    numbers[i] = value;
-                }
-                int lastIndex = Math.abs(numbers[numbers.length - 1] - firstIndex);
-                numbers[numbers.length - 1] = lastIndex;
-                if (count > 1000) {
-                    System.out.println(-1);
-                }
-            }
+        int n = reader.nextInt();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int number = reader.nextInt();
+            map.put(number, map.getOrDefault(number, 0) + 1);
         }
-    }
-
-    static boolean iteration(int[] numbers) {
-        int i = 0;
-        while (i < numbers.length - 1) {
-            if (numbers[i] != numbers[i + 1]) {
-                return false;
-            }
-            i++;
+        List<Integer> list = new ArrayList<>(map.keySet());
+        list.sort((p1, p2) -> p1 - p2);
+        for (Integer integer : list) {
+            sb.append(integer + " " + map.get(integer) + "\n");
         }
-        return true;
+        System.out.println(sb.toString());
     }
 
     static class InputReader {

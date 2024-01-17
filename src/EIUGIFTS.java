@@ -1,51 +1,41 @@
 import java.io.*;
 import java.util.*;
 
-class EIUPH014 {
+class EIUGIFTS {
     static InputReader reader;
+    static StringBuffer sb = new StringBuffer();
 
     public static void main(String[] args) throws IOException {
         reader = new InputReader(System.in);
-        while (true) {
-            int n = reader.nextInt();
-            if (n == 0) {
-                break;
-            }
-            int[] numbers = new int[n];
-            for (int i = 0; i < n; i++) {
-                numbers[i] = reader.nextInt();
-            }
-            int count = 0;
-            while (count <= 1000) {
-                if (iteration(numbers)) {
-                    System.out.println(count);
-                    break;
-                } else {
-                    count++;
-                }
-                int firstIndex = numbers[0];
-                for (int i = 0; i < numbers.length - 1; i++) {
-                    int value = Math.abs(numbers[i + 1] - numbers[i]);
-                    numbers[i] = value;
-                }
-                int lastIndex = Math.abs(numbers[numbers.length - 1] - firstIndex);
-                numbers[numbers.length - 1] = lastIndex;
-                if (count > 1000) {
-                    System.out.println(-1);
+        int n = reader.nextInt();
+        int k = reader.nextInt();
+        List<Integer> items = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int item = reader.nextInt();
+            items.add(item);
+        }
+        Collections.sort(items, (p1, p2) -> p1 - p2);
+        // 10 40 40 50 60
+        int maxTotal = -1;
+        int minDiff = -1;
+        int total = 0;
+        for (int i = 0; i < n - 1; i++) {
+            int j = i + 1;
+            for (; j < n; j++) {
+                total = items.get(i) + items.get(j);
+                int diff = Math.abs(items.get(j) - items.get(i));
+                if (total <= k && (minDiff == -1 || diff < minDiff)) {
+                    minDiff = diff;
+                    maxTotal = total;
                 }
             }
         }
-    }
+        if (maxTotal == -1) {
+            System.out.println("-1 -1");
+        } else {
+            System.out.println(maxTotal + " " + minDiff);
+        }
 
-    static boolean iteration(int[] numbers) {
-        int i = 0;
-        while (i < numbers.length - 1) {
-            if (numbers[i] != numbers[i + 1]) {
-                return false;
-            }
-            i++;
-        }
-        return true;
     }
 
     static class InputReader {

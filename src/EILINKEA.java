@@ -1,53 +1,67 @@
 import java.io.*;
 import java.util.*;
 
-class EIUPH014 {
+class EILINKEA {
     static InputReader reader;
+    static StringBuffer sb = new StringBuffer();
 
     public static void main(String[] args) throws IOException {
         reader = new InputReader(System.in);
-        while (true) {
-            int n = reader.nextInt();
-            if (n == 0) {
-                break;
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        int m = reader.nextInt();
+        for (int i = 0; i < m; i++) {
+            String input = reader.next();
+            if (input.equals("insertAt")) {
+                int index = reader.nextInt();
+                int value = reader.nextInt();
+                list.
             }
-            int[] numbers = new int[n];
-            for (int i = 0; i < n; i++) {
-                numbers[i] = reader.nextInt();
+        }
+        
+    }
+
+    class LinkedList<T extends Number> {
+        static private class LinkedNode<U extends Number> {
+            U number;
+            LinkedNode<U> next;
+
+            public LinkedNode(U number) {
+                this.number = number;
+        }
+    }
+    
+    LinkedNode<T> head = null;
+
+    public void insertAt(int index, T number) {
+        if (index < 0) {
+            return;
+        }
+        LinkedNode<T> newNode = new LinkedNode<T>(number);
+        if (index ==0) {
+            newNode.next = head;
+            head = newNode;
+        } else{
+            LinkedNode<T> current = head;
+            for (int i = 0; i < index - 1 && current != null; i++) {
+                current = current.next;
             }
-            int count = 0;
-            while (count <= 1000) {
-                if (iteration(numbers)) {
-                    System.out.println(count);
-                    break;
-                } else {
-                    count++;
-                }
-                int firstIndex = numbers[0];
-                for (int i = 0; i < numbers.length - 1; i++) {
-                    int value = Math.abs(numbers[i + 1] - numbers[i]);
-                    numbers[i] = value;
-                }
-                int lastIndex = Math.abs(numbers[numbers.length - 1] - firstIndex);
-                numbers[numbers.length - 1] = lastIndex;
-                if (count > 1000) {
-                    System.out.println(-1);
-                }
+            if (current != null) {
+                newNode.next = current.next;
+                current.next = newNode;
             }
         }
     }
+    // if index is out of range
 
-    static boolean iteration(int[] numbers) {
-        int i = 0;
-        while (i < numbers.length - 1) {
-            if (numbers[i] != numbers[i + 1]) {
-                return false;
-            }
-            i++;
+    public T getAt( int index){
+        if (index <0) {
+            return null;
         }
-        return true;
+        LinkedNode<T> current = head;
+        for (int i = 0; i < index && current != null; i++) {
+            current = current.next;
+        }
     }
-
     static class InputReader {
         private byte[] inbuf = new byte[2 << 23];
         public int lenbuf = 0, ptrbuf = 0;

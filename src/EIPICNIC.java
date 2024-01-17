@@ -1,51 +1,28 @@
 import java.io.*;
 import java.util.*;
 
-class EIUPH014 {
+class EIPICNIC {
     static InputReader reader;
+    static StringBuffer sb = new StringBuffer();
+    // 7
+    // 1 2 3 4 2 1 3
 
     public static void main(String[] args) throws IOException {
         reader = new InputReader(System.in);
-        while (true) {
-            int n = reader.nextInt();
-            if (n == 0) {
-                break;
-            }
-            int[] numbers = new int[n];
-            for (int i = 0; i < n; i++) {
-                numbers[i] = reader.nextInt();
-            }
-            int count = 0;
-            while (count <= 1000) {
-                if (iteration(numbers)) {
-                    System.out.println(count);
-                    break;
-                } else {
-                    count++;
-                }
-                int firstIndex = numbers[0];
-                for (int i = 0; i < numbers.length - 1; i++) {
-                    int value = Math.abs(numbers[i + 1] - numbers[i]);
-                    numbers[i] = value;
-                }
-                int lastIndex = Math.abs(numbers[numbers.length - 1] - firstIndex);
-                numbers[numbers.length - 1] = lastIndex;
-                if (count > 1000) {
-                    System.out.println(-1);
-                }
-            }
+        int numberOfGroups = reader.nextInt();
+        int[] numberOfCar = new int[5];
+        for (int i = 0; i < numberOfGroups; i++) {
+            int peopleInGroup = reader.nextInt();
+            numberOfCar[peopleInGroup]++;
         }
-    }
-
-    static boolean iteration(int[] numbers) {
-        int i = 0;
-        while (i < numbers.length - 1) {
-            if (numbers[i] != numbers[i + 1]) {
-                return false;
-            }
-            i++;
-        }
-        return true;
+        int totalCar = 0;
+        int remainPeople = 0;
+        totalCar += numberOfCar[4];
+        totalCar += numberOfCar[3];
+        numberOfCar[1] -= Math.min(numberOfCar[3], numberOfCar[1]);
+        remainPeople = numberOfCar[1] + numberOfCar[2] * 2;
+        totalCar += (remainPeople % 4 == 0) ? (remainPeople / 4) : (remainPeople / 4) + 1;
+        System.out.println(totalCar);
     }
 
     static class InputReader {
