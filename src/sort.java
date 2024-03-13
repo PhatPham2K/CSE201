@@ -186,3 +186,65 @@ class EIUMERSORT {
 		}
 	}
 }
+
+
+      StringBuilder sb = new StringBuilder();
+        InputReader reader = new InputReader(System.in);
+
+        int n = reader.nextInt();
+        DecimalFormat df = new DecimalFormat("0.##");
+        Map<String, Member> map = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            String id = reader.next();
+            double money = reader.nextDouble();
+            if (map.containsKey(id)) {
+				Member member = map.get(id);
+				member.discount(money);
+			}else {
+				Member member = new Member(id);
+				member.total = money;
+				map.put(id, member);
+			}
+        }
+        double total =0;
+        for (String v : map.keySet()) {
+			Member member = map.get(v);
+			total += member.totalDiscount;
+		}
+        if(total == (int)total) {
+        	sb.append((int)total);
+        }else {
+        	sb.append(df.format(total));
+        }
+
+        System.out.println(sb);
+    }
+
+	static class Member {
+		String id;
+		double totalDiscount;
+		double total;
+
+		public Member(String id) {
+			super();
+			this.id = id;
+		}
+
+		public void discount(double money) {
+			double rate = 0;
+			if (total < 1000000) {
+				rate = 0;
+			} else if (total < 20000000) {
+				rate = money * 2 / 100;
+			} else if (total < 50000000) {
+				rate = money * 3 / 100;
+			} else if (total < 200000000) {
+				rate = money * 5 / 100;
+			} else if (total >= 200000000) {
+				rate = money * 7 / 100;
+			}
+			total += money;
+			totalDiscount += rate;
+		}
+	}
